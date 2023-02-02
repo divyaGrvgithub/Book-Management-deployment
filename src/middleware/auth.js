@@ -10,7 +10,7 @@ const authenticate = function (req, res, next) {
     try {
         const token = req.headers["x-api-key"]
         if (!token) {
-            return res.status(400).send({ status: false, message: "token must be present" })
+            return res.status(401).send({ status: false, message: "token must be present" })
         }
         else {
             jwt.verify(token, "Books-Management-Group-9", function (err, data) {
@@ -32,7 +32,7 @@ const authenticate = function (req, res, next) {
 const authorization = async function (req, res, next) {
     try {
         let data = req.body
-        if (Object.keys(data).length === 0) return res.status(400).send({ status: false, msg: "Please enter some data" })
+        // if (Object.keys(data).length === 0) return res.status(400).send({ status: false, msg: "Please enter some data" })
         let { userId } = data
         if (userId) {
             if (!mongoose.Types.ObjectId.isValid(userId)) {
@@ -43,18 +43,18 @@ const authorization = async function (req, res, next) {
                 return res.status(404).send({ status: false, message: "UserId not found" })
             }
             if (userId !== req.loginUserId) {
-                return res.status(403).send({ status: false, msg: "You are not authorised" })
+                return res.status(403).send({ status: false, message: "You are not authorised" })
             }
         }
         else {
             let bookId = req.params.bookId
-            if (!mongoose.Types.ObjectId.isValid(bookId)) {
+            if (!mongoose.isValidObjectId(bookId)) {
                 return res.status(400).send({ status: false, message: "please provide valid bookId" })
             }
             let checkAuth = await bookModel.findOne({ _id: bookId })
-            if (checkAuth === null) return res.status(400).send({ status: false, msg: "Not find any book" })
+            if (checkAuth === null) return res.status(404).send({ status: false, message: "Not find any book" })
             if (checkAuth.userId != req.loginUserId) {
-                return res.status(403).send({ status: false, msg: "You are not autherised" })
+                return res.status(403).send({ status: false, message: "You are not autherised" })
             }
         }
         next()

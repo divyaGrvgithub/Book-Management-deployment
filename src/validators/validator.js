@@ -9,7 +9,7 @@ const isValidObjectId = function (ObjectId) {
 
 const isValid = (value) => {
     if (typeof value === "undefined" || value === null) return false
-    if (typeof value === "string" && value.trim().length === 0) return false;
+    if (typeof value === "string" && value.trim().length === 0) return false; // "     "
     if (typeof value === "string") { return true }
     else {
         return false
@@ -35,7 +35,7 @@ const isValidEmail = function (value) {
 
 const isValidPassword = function (password) {
     const passwordRegex =
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+        /^[A-Za-z0-9@#$]{8,15}$/;
     return passwordRegex.test(password);
 };
 
