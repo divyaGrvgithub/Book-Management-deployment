@@ -8,7 +8,7 @@ app.use(express.json())
 app.use(multer().any())
 
 mongoose.set("strictQuery",true)
-mongoose.connect("mongodb+srv://divyamala_:Dt25042000knp@divyamala.0cofsch.mongodb.net/group9Database")
+mongoose.connect("mongodb+srv://divyamala_:Dt25042000knp@divyamala.0cofsch.mongodb.net/TusharDatabase")
 
 .then(()=>console.log("MongoDb is Connected"))
 .catch((err=>console.log(err)))
